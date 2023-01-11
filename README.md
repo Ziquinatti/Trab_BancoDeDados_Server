@@ -18,4 +18,4 @@ Só importar no MySQL Workbench.
 
 - Modelo ER:
 
-![Modelo ER](database/modelo_ER.png)
+![Modelo ER](database/modelo_ER_v2.png)
