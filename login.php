@@ -1,24 +1,19 @@
 <?php
-    include("conexao.php");
+    if(isset($_POST['email']) && isset($_POST['senha'])){
+        include "conexao.php";
 
-    $email = $_POST['email'];
-    $senha = $_POST['senha'];
-    // $email = "winglisson@teste.com";
-    // $senha = "123456";
+        $email = $_POST['email'];
+        $senha = $_POST['senha'];
 
-    $sql_read = "SELECT id, nome FROM usuario WHERE email = :EMAIL AND senha = :SENHA";
+        //$email = "testbot@teste.com";
+        //$senha = "12345";
 
-    $stmt = $PDO->prepare($sql_read);
-
-    $stmt->bindParam(':EMAIL', $email);
-    $stmt->bindParam(':SENHA', $senha);
-
-    if($stmt->execute()){
-        $dados = $stmt->fetch();
-        $result = array("LOGIN"=>"OK", "ID"=>$dados['id'], "NOME"=>$dados['nome']);
-    } else {
-        $result = array("LOGIN"=>"ERRO");
+        $sql = "SELECT * FROM usuario WHERE email = '$email' AND senha = '". md5($senha) ."'";
+        $result = $conn->query($sql);
+        if($result->num_rows > 0){
+            echo "sucesso";
+        } else {
+            echo "erro";
+        }
     }
-
-    echo json_encode($result);
 ?>

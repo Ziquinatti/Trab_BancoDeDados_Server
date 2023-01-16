@@ -1,18 +1,15 @@
 <?php
-    $dsn = "mysql:host=localhost;dbname=trab_finalbd;charset=utf8";
-    $user = "root";
-    $senha = "12345";
+    $server = "localhost";
+    $username = "root";
+    $password = "12345";
+    $database = "trab_finalbd";
 
-    try{
+    $conn = new mysqli($server, $username, $password, $database);
 
-        $PDO = new PDO($dsn, $user, $senha);
-
-        //echo "<h1>Conectado com sucesso</h1>";
-
-    } catch(PDOException $erro) {
-
-        //echo "<h1>Ocorreu um erro</h1>";
-        //echo $erro->getMessage();
-
-    }
+    if($conn->connect_error){
+        die("Conexão falhou: " . $conn->connect_error);
+    } 
+    /*else {
+        echo "Conexão funcionando";
+    }*/
 ?>

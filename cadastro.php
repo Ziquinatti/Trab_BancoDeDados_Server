@@ -1,24 +1,21 @@
 <?php
-    include "conexao.php";
+    if(isset($_POST['nome']) && isset($_POST['email']) && isset($_POST['senha'])){
+        include "conexao.php";
 
-    $nome = $_POST['nome'];
-    $email = $_POST['email'];
-    $senha = $_POST['senha'];
+        $nome = $_POST['nome'];
+        $email = $_POST['email'];
+        $senha = $_POST['senha'];
 
-    $sql_insert = "INSERT INTO usuario (nome, email, senha) VALUES (:NOME, :EMAIL, :SENHA)";
+        //$nome = "TestBot";
+        //$email = "testbot@teste.com";
+        //$senha = "12345";
 
-    $stmt = $PDO->prepare($sql_insert);
+        $sql = "INSERT INTO usuario (nome, email, senha) VALUES('$nome', '$email', '". md5($senha) ."')";
 
-    $stmt->bindParam(':NOME', $nome);
-    $stmt->bindParam(':EMAIL', $email);
-    $stmt->bindParam(':SENHA', $senha);
-
-    if($stmt->execute()){
-        $id = $PDO->lastInsertId();
-        $dados = array("CADASTRO"=>"OK", "ID"=>$id);
-    } else {
-        $dados = array("CADASTRO"=>"ERRO");
+        if(!$conn->query($sql)){
+            echo "erro";
+        } else {
+            echo "sucesso";
+        }
     }
-
-    echo json_encode($dados);
 ?>
