@@ -1,21 +1,26 @@
 <?php
-    if(isset($_POST['nome']) && isset($_POST['email']) && isset($_POST['senha'])){
-        include "conexao.php";
+    $_POST = json_decode(file_get_contents('php://input'), true);
 
-        $nome = $_POST['nome'];
-        $email = $_POST['email'];
-        $senha = $_POST['senha'];
+    include "conexao.php";
 
-        //$nome = "TestBot";
-        //$email = "testbot@teste.com";
-        //$senha = "12345";
+    $nome = $_POST['nome'];
+    $email = $_POST['email'];
+    $senha = $_POST['senha'];
 
-        $sql = "INSERT INTO usuario (nome, email, senha) VALUES('$nome', '$email', '". md5($senha) ."')";
+    //$nome = "TestBot";
+    //$email = "testbot@teste.com";
+    //$senha = "12345";
 
-        if(!$conn->query($sql)){
-            echo "erro";
-        } else {
-            echo "sucesso";
-        }
+    $sql = "INSERT INTO usuario (nome, email, senha) VALUES('$nome', '$email', '". md5($senha) ."')";
+
+    if(!$conn->query($sql)){
+        //echo "erro";
+        $data = array("CADASTRO"=>"ERRO");
+    } else {
+        //echo "sucesso";
+        $lastId = $conn->insert_id;
+        $data = array("CADASTRO"=>"OK", "ID"=>$lastId);
     }
+
+    echo json_encode($data);
 ?>
